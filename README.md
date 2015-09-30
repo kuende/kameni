@@ -22,6 +22,8 @@ vulcand_prefix = "vulcand"
 
 ### Running
 
+Configure marathon for http callbacks, and set kameni address callback, eg(`http://localhost:7373/moxy_callback`) in marathon http callbacks param (`http_endpoints`)
+
 ```
 $ kameni -f kameni.toml
 
