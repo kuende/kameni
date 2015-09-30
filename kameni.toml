@@ -1,0 +1,13 @@
+# kameni listening port
+addr = ":7334"
+
+# marathon url
+marathon = "http://localhost:8080"
+
+# etcd servers used for kameni and vulcand
+etcd_servers = [
+  "http://localhost:4001"
+]
+
+kameni_prefix = "kameni"
+vulcand_prefix = "vulcand"
