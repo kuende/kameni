@@ -1,5 +1,5 @@
 # kameni listening port
-addr = ":7334"
+addr = ":7373"
 
 # marathon url
 marathon = "http://localhost:8080"

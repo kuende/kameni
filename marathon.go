@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/ngaut/log"
+	"github.com/mailgun/log"
 )
 
 const (
@@ -54,11 +54,13 @@ func handleEvent(event *MarathonEvent) error {
 		return handleStatusUpdate(event)
 	}
 
-	log.Infof("No action for event type: %s" + event.EventType)
+	log.Infof("No action for event type: %s", event.EventType)
 	return nil
 }
 
 func handleStatusUpdate(event *MarathonEvent) error {
+	log.Infof("Received status update: %s", event.TaskStatus)
+
 	for _, status := range addStatuses {
 		if event.TaskStatus == status {
 			server := getServer(event)

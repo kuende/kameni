@@ -14,7 +14,7 @@ import (
 )
 
 var (
-	config Config
+	config = Config{}
 )
 
 func die(err error) {
@@ -22,9 +22,7 @@ func die(err error) {
 	os.Exit(1)
 }
 
-func parseConfig() error {
-	configtoml := flag.String("f", "kameni.toml", "Path to config. (default kameni.toml)")
-	flag.Parse()
+func parseConfig(configtoml *string) error {
 	file, err := ioutil.ReadFile(*configtoml)
 	if err != nil {
 		return fmt.Errorf("Error reading config file: %v", err)
@@ -38,16 +36,20 @@ func parseConfig() error {
 }
 
 func marathonCallback(w http.ResponseWriter, r *http.Request) {
-	log.Infof("callback received from Marathon")
+	// log.Infof("callback received from Marathon")
 	handleMarathonEvent(r)
 	w.WriteHeader(202)
+	fmt.Fprintln(w, "Done")
 }
 
 func main() {
 	runtime.GOMAXPROCS(runtime.NumCPU())
 	log.Init([]*log.LogConfig{&log.LogConfig{Name: "console"}})
 
-	if err := parseConfig(); err != nil {
+	configtoml := flag.String("f", "kameni.toml", "Path to config. (default kameni.toml)")
+	flag.Parse()
+
+	if err := parseConfig(configtoml); err != nil {
 		die(err)
 	}
 
@@ -55,6 +57,7 @@ func main() {
 
 	router := mux.NewRouter().StrictSlash(true)
 	router.HandleFunc("/marathon_callback", marathonCallback)
+	router.HandleFunc("/moxy_callback", marathonCallback)
 
 	log.Infof("Running on: %s", config.ListenAddr())
 

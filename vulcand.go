@@ -6,7 +6,7 @@ import (
 	"fmt"
 
 	"github.com/coreos/go-etcd/etcd"
-	"github.com/ngaut/log"
+	"github.com/mailgun/log"
 )
 
 // VulcandServer keeps marathon app data
@@ -65,7 +65,7 @@ func removeVulcandServer(appID string, server VulcandServer) error {
 		return err
 	}
 
-	log.Infof("Remove server: %s from backend: %s, url: %s", server.ID, backend.BackendID, server.URL)
+	log.Infof("Removed server: %s from backend: %s, url: %s", server.ID, backend.BackendID, server.URL)
 	return nil
 }
 

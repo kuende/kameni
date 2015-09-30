@@ -2,17 +2,17 @@ package main
 
 // Config keeps config file settings
 type Config struct {
-	Marathon      string
-	EtcdServers   []string
-	addr          string
-	kameniPrefix  string
-	vulcandPrefix string
+	Marathon      string   `toml:"marathon"`
+	EtcdServers   []string `toml:"etcd_servers"`
+	addr          string   `toml:"addr"`
+	kameniPrefix  string   `toml:"kameni_prefix"`
+	vulcandPrefix string   `toml:"vulcand_prefix"`
 }
 
 // ListenAddr returns address to listen
 func (c Config) ListenAddr() string {
 	if c.addr == "" {
-		return ":7334"
+		return ":7373"
 	}
 
 	return c.addr
