@@ -1,0 +1,35 @@
+{
+	"ImportPath": "github.com/kuende/kameni",
+	"GoVersion": "go1.5",
+	"Packages": [
+		"./..."
+	],
+	"Deps": [
+		{
+			"ImportPath": "github.com/BurntSushi/toml",
+			"Comment": "v0.1.0-16-gf706d00",
+			"Rev": "f706d00e3de6abe700c994cdd545a1a4915af060"
+		},
+		{
+			"ImportPath": "github.com/coreos/go-etcd/etcd",
+			"Comment": "v2.0.0-34-gde3514f",
+			"Rev": "de3514f25635bbfb024fdaf2a8d5f67378492675"
+		},
+		{
+			"ImportPath": "github.com/gorilla/context",
+			"Rev": "215affda49addc4c8ef7e2534915df2c8c35c6cd"
+		},
+		{
+			"ImportPath": "github.com/gorilla/mux",
+			"Rev": "e444e69cbd2e2e3e0749a2f3c717cec491552bbf"
+		},
+		{
+			"ImportPath": "github.com/mailgun/log",
+			"Rev": "b65e83b83bfde331a05016a6bb8055cc96695c30"
+		},
+		{
+			"ImportPath": "github.com/ugorji/go/codec",
+			"Rev": "2cb41eb350bb803298e42218d78a525daca640a5"
+		}
+	]
+}

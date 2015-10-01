@@ -8,9 +8,9 @@ import (
 	"os"
 	"runtime"
 
-	"github.com/BurntSushi/toml"
-	"github.com/gorilla/mux"
-	"github.com/mailgun/log"
+	"github.com/kuende/kameni/Godeps/_workspace/src/github.com/BurntSushi/toml"
+	"github.com/kuende/kameni/Godeps/_workspace/src/github.com/gorilla/mux"
+	"github.com/kuende/kameni/Godeps/_workspace/src/github.com/mailgun/log"
 )
 
 var (

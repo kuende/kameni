@@ -5,8 +5,8 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/coreos/go-etcd/etcd"
-	"github.com/mailgun/log"
+	"github.com/kuende/kameni/Godeps/_workspace/src/github.com/coreos/go-etcd/etcd"
+	"github.com/kuende/kameni/Godeps/_workspace/src/github.com/mailgun/log"
 )
 
 // VulcandServer keeps marathon app data

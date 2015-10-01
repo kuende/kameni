@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/mailgun/log"
+	"github.com/kuende/kameni/Godeps/_workspace/src/github.com/mailgun/log"
 )
 
 const (
