@@ -22,7 +22,7 @@ vulcand_prefix = "vulcand"
 
 ### Running
 
-Configure marathon for http callbacks, and set kameni address callback, eg(`http://localhost:7373/moxy_callback`) in marathon http callbacks param (`http_endpoints`)
+Configure marathon for http callbacks, and set kameni address callback, eg(`http://localhost:7373/marathon_callback`) in marathon http callbacks param (`http_endpoints`)
 
 ```
 $ kameni -f kameni.toml
@@ -35,12 +35,12 @@ $ sudo service kameni start
 
 ```
 # my-app => app id in marathon
-# myapp => backend id for vulcand
+# myapp => backend id in vulcand
 $ etcdctl set /kameni/apps/my-app '{"backend_id": "myapp"}'
 {"backend_id": "my-app"}
 
 $ # scale apps in marathon
 
-$ ./etcdctl get /vulcand/backends/ng/servers/my-app.3faf04e6-674f-11e5-bee1-56847afe9799
-{"URL":"http://my.marathon.hostname:31509"}
+$ ./etcdctl get /vulcand/backends/myapp/servers/my-app.3faf04e6-674f-11e5-bee1-56847afe9799
+{"URL":"http://mesos-slave05.myapp.com:31509"}
 ```
