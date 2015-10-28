@@ -17,7 +17,8 @@ type VulcandServer struct {
 
 // BackendConfig is struct fetched from etcd
 type BackendConfig struct {
-	BackendID string `json:"backend_id"`
+	BackendID   string `json:"backend_id"`
+	BackendType string `json:"type"`
 }
 
 var (
@@ -26,6 +27,15 @@ var (
 	ErrEtcdValueNotPresent = errors.New("Etcd value was not present")
 )
 
+// Type returns Backend type, vulcand default
+func (b *BackendConfig) Type() string {
+	if b.BackendType == "" {
+		return "vulcand"
+	}
+
+	return b.BackendType
+}
+
 func addVulcandServer(appID string, server VulcandServer) error {
 	backend, err := fetchBackend(appID)
 
@@ -33,7 +43,7 @@ func addVulcandServer(appID string, server VulcandServer) error {
 		return err
 	}
 
-	path := serverPath(backend.BackendID, server.ID)
+	path := serverPath(backend, server.ID)
 
 	value, _ := json.Marshal(server)
 
@@ -56,7 +66,7 @@ func removeVulcandServer(appID string, server VulcandServer) error {
 		return err
 	}
 
-	path := serverPath(backend.BackendID, server.ID)
+	path := serverPath(backend, server.ID)
 
 	err = etcdDelete(path)
 
@@ -91,8 +101,12 @@ func backendPath(backendID string) string {
 	return fmt.Sprintf("/%s/backends/%s/backend", config.VulcandPrefix(), backendID)
 }
 
-func serverPath(backendID, serverID string) string {
-	return fmt.Sprintf("/%s/backends/%s/servers/%s", config.VulcandPrefix(), backendID, serverID)
+func serverPath(backendID *BackendConfig, serverID string) string {
+	if backendID.Type() == "vulcand" {
+		return fmt.Sprintf("/%s/backends/%s/servers/%s", config.VulcandPrefix(), backendID, serverID)
+	}
+
+	return fmt.Sprintf("%s/%s", backendID.BackendID, serverID)
 }
 
 func setupEtcd() {
