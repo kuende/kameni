@@ -44,3 +44,18 @@ $ # scale apps in marathon
 $ ./etcdctl get /vulcand/backends/myapp/servers/my-app.3faf04e6-674f-11e5-bee1-56847afe9799
 {"URL":"http://mesos-slave05.myapp.com:31509"}
 ```
+
+
+### Setup using confd for nginx
+
+```
+# nginx-app => app id in marathon
+# /nginx/apps/nginx-app/upstreams => nginx upstream
+$ etcdctl set /kameni/apps/my-app '{"backend_id": "/nginx/apps/nginx-app/upstreams", "type": "confd"}'
+{"backend_id": "/nginx/apps/nginx-app/upstreams", "type": "confd"}
+
+$ # scale apps in marathon
+
+$ ./etcdctl get /nginx/apps/nginx-app/upstreams/my-app.3faf04e6-674f-11e5-bee1-56847afe9799
+mesos-slave05.myapp.com:31509
+```
