@@ -11,8 +11,9 @@ import (
 
 // VulcandServer keeps marathon app data
 type VulcandServer struct {
-	ID  string `json:"-"`
-	URL string `json:"URL"`
+	ID       string `json:"-"`
+	URL      string `json:"URL"`
+	HostPort string `json:"-"`
 }
 
 // BackendConfig is struct fetched from etcd
@@ -36,6 +37,16 @@ func (b *BackendConfig) Type() string {
 	return b.BackendType
 }
 
+// Format formats etcd entry
+func (b *BackendConfig) Format(server VulcandServer) string {
+	if b.Type() == "vulcand" {
+		v, _ := json.Marshal(server)
+		return string(v)
+	}
+
+	return server.HostPort
+}
+
 func addVulcandServer(appID string, server VulcandServer) error {
 	backend, err := fetchBackend(appID)
 
@@ -44,8 +55,7 @@ func addVulcandServer(appID string, server VulcandServer) error {
 	}
 
 	path := serverPath(backend, server.ID)
-
-	value, _ := json.Marshal(server)
+	value := backend.Format(server)
 
 	err = etcdSet(path, value)
 
@@ -101,12 +111,12 @@ func backendPath(backendID string) string {
 	return fmt.Sprintf("/%s/backends/%s/backend", config.VulcandPrefix(), backendID)
 }
 
-func serverPath(backendID *BackendConfig, serverID string) string {
-	if backendID.Type() == "vulcand" {
-		return fmt.Sprintf("/%s/backends/%s/servers/%s", config.VulcandPrefix(), backendID, serverID)
+func serverPath(backend *BackendConfig, serverID string) string {
+	if backend.Type() == "vulcand" {
+		return fmt.Sprintf("/%s/backends/%s/servers/%s", config.VulcandPrefix(), backend.BackendID, serverID)
 	}
 
-	return fmt.Sprintf("%s/%s", backendID.BackendID, serverID)
+	return fmt.Sprintf("%s/%s", backend.BackendID, serverID)
 }
 
 func setupEtcd() {
@@ -127,8 +137,8 @@ func etcdGet(key string) ([]byte, error) {
 	return []byte(value.Node.Value), nil
 }
 
-func etcdSet(key string, value []byte) error {
-	_, err := etcdClient.Set(key, string(value), 0)
+func etcdSet(key, value string) error {
+	_, err := etcdClient.Set(key, value, 0)
 
 	return err
 }

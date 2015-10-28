@@ -96,9 +96,11 @@ func getServer(event *MarathonEvent) *VulcandServer {
 
 	port := event.Ports[0]
 	url := fmt.Sprintf("http://%s:%d", event.Host, port)
+	hostPort := fmt.Sprintf("%s:%d", event.Host, port)
 
 	return &VulcandServer{
-		ID:  event.TaskID,
-		URL: url,
+		ID:       event.TaskID,
+		URL:      url,
+		HostPort: hostPort,
 	}
 }
